@@ -14,7 +14,7 @@ const _canRenderMethodTypes = (abi, method, typeCategory) => {
 
   let can = true
 
-  def[typeCategory].forEach(item => {
+  ;(def[typeCategory] || []).forEach(item => {
     const { type } = item
 
     can = can && TYPES.reduce((m, st) => (
@@ -33,18 +33,11 @@ export const renderMethodParams = (abi, method, renderField) => {
   }
 
   const def = getMethodDefinition(abi, method)
-  if (!def) {
-    return
-  }
 
-  def.inputs.forEach(input => {
+  ;(def.inputs || []).forEach(input => {
     const instance = buildType(input.type)
 
-    renderField(input.name, instance.fieldType(), {
-      placeholder: instance.placeholderText(),
-      isValid: arg => instance.isValid(arg),
-      sanitize: arg => instance.sanitize(arg)
-    })
+    renderField(input.name, instance)
   })
 }
 
@@ -56,13 +49,10 @@ export const renderMethodOutputs = (abi, method, results, renderValue) => {
   }
 
   const def = getMethodDefinition(abi, method)
-  if (!def) {
-    return
-  }
 
-  def.outputs.forEach((output, index) => {
+  ;(def.outputs || []).forEach((output, index) => {
     const instance = buildType(output.type)
 
-    renderValue(output.name, index, instance.fieldType(), results[index])
+    renderValue(output.name, index, instance, results[index])
   })
 }
