@@ -15,9 +15,7 @@ const MAPPING = {
 
 export const TYPES = Object.keys(MAPPING)
 
-export const buildType = item => {
-  const { type } = item
-
+export const buildType = type => {
   let instance
   TYPES.forEach(supportedType => {
     if (type.startsWith(supportedType)) {

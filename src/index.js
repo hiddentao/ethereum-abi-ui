@@ -38,7 +38,7 @@ export const renderMethodParams = (abi, method, renderField) => {
   }
 
   def.inputs.forEach(input => {
-    const instance = buildType(input)
+    const instance = buildType(input.type)
 
     renderField(input.name, instance.fieldType(), {
       placeholder: instance.placeholderText(),
@@ -61,7 +61,7 @@ export const renderMethodOutputs = (abi, method, results, renderValue) => {
   }
 
   def.outputs.forEach((output, index) => {
-    const instance = buildType(output)
+    const instance = buildType(output.type)
 
     renderValue(output.name, index, instance.fieldType(), results[index])
   })

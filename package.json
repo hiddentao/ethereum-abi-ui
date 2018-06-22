@@ -16,7 +16,7 @@
     "prepublishOnly": "yarn lint && yarn test && yarn build",
     "lint": "eslint ./src",
     "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest --coverage --collectCoverageFrom=src/**/*.js --coverageDirectory=coverage/",
     "test:watch": "jest --watch",
     "codecov": "codecov"
   },
@@ -45,14 +45,6 @@
     ],
     "testMatch": [
       "**/?(*.)test.js"
-    ],
-    "collectCoverageFrom": [
-      "**/*.js"
-    ],
-    "coverageReporters": [
-      "html",
-      "text",
-      "text-summary"
     ]
   },
   "dependencies": {
