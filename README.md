@@ -96,8 +96,55 @@ form.submit(() => {
 
 ## API
 
-_TODO_
+**canRenderMethodParams(abiJson, methodName): boolean**
 
+Get whether this library can render the input parameters for the given method of the given ABI.
+
+**renderMethodParams(abiJson, methodName, callback)**
+
+Render the input parameters for the given method of the given ABI.
+
+The callback will be called for each input param with the following parameters:
+
+1. `name` - name of the parameter
+2. `instance` - an object instance representing the parameter type.
+
+The `instance` object has the following methods:
+
+* `fieldType()` - returns one of the `FIELD_TYPES` (see below)
+* `placeholderText()` - suggested placeholder text to use for the input field representing this parameter
+* `isValid()` - function which tells you whether a given value is valid for this input parameter
+* `sanitize()` - function which can sanitize a given value entered for this parameter
+
+**canRenderMethodOutputs(abiJson, methodName): boolean**
+
+Get whether this library can render the output parameters for the given method of the given ABI.
+
+**renderMethodOutputs(abiJson, methodName, results, callback)**
+
+Render the output parameters for the given method of the given ABI.
+
+The callback will be called for each output param with the following parameters:
+
+1. `name` - name of the parameter
+2. `index` - index of the output parameter in the list of outputs
+3. `instance` - an object instance representing the parameter type.
+4. `result` - the result obtained for this parameter (extracted from the `results` array passed in to the method)
+
+The `instance` object has the following methods:
+
+* `fieldType()` - returns one of the `FIELD_TYPES` (see below)
+* `placeholderText()` - suggested placeholder text to use for the input field representing this parameter
+* `isValid()` - function which tells you whether a given value is valid for this input parameter
+* `sanitize()` - function which can sanitize a given value entered for this parameter
+
+**FIELD_TYPES**
+
+The supported form field types, at present: `ADDRESS`, `TEXT`, `NUMBER`, `BOOL`
+
+**PARAM_TYPES**
+
+The supported variable types, at present: `address`, `string`, `uint`, `int`, `bool`
 
 ## Development
 
