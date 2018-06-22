@@ -29,9 +29,11 @@ npm install --save ethereum-abi-ui
 
 ## Example usage
 
-_This is a very basic example to illustrate how you use the API, it does not utilize any sort of front-end framework and is not production-quality code._
+_This is a very basic example to illustrate how you use the API, it only uses jQuery, does not utilize any front-end framework, and is not production-quality code._
 
 ```js
+import $ from 'jquery'
+
 import {
   FIELD_TYPES,
   canRenderMethodParams,
@@ -41,34 +43,55 @@ import {
 } from 'ethereum-abi-ui'
 
 const ABI = [ /* Solidity contract ABI definition */ ]
-const form = document.getElementById('method')
-const output = document.getElementById('outputs')
+const form = $('method')
+const output = $('outputs')
+
+const fields = []
 
 // render the input fields for the method params
 if (canRenderMethodParams(ABI, 'approve')) {
-	renderMethodParams(ABI, 'approve', (name, instance) => {
-		switch (instance.fieldType()) {
-			case FIELD_TYPES.NUMBER:
-				form.innerHTML += `<input type="number" name="${name}" />`
-				break
-			case FIELD_TYPES.ADDRESS:
-				// ...
-				break
-			// ...
-		}
-	})
+  renderMethodParams(ABI, 'approve', (name, instance) => {
+    switch (instance.fieldType()) {
+      case FIELD_TYPES.NUMBER: {
+        const input = $(`<input type="number" name="${name}" />`)
+        input.instance = instance
+        fields.push(input)
+        form.append(input)
+        break
+      }
+      case FIELD_TYPES.ADDRESS:
+        // ...
+        break
+      // ...
+    }
+  })
 }
 
-form.onSubmit = () => {
-	const results = /* doWeb3MethodCallUsingFormFieldValues() */
-	
-	// now render the results
-	if (canRenderMethodOutputs(ABI, 'approve')) {
-		renderMethodOutputs(ABI, 'approve', results, (name, index, instance, result) => {
-			output.innerHTML += `<p>${name}: ${result}</p>`
-		})
-	}
-}
+form.submit(() => {
+  const values = {}
+
+  fields.forEach(input => {
+    // sanitize entered value
+    const val = input.instance.sanitize(input.val())
+
+    // check that it's valid
+    if (!input.instance.isValid(val)) {
+      throw new Error('Please enter valid data')
+    }
+
+    // add to final values to send
+    values[input.getAttribute('name')] = val
+  })
+
+  const results = doWeb3MethodCallUsingFormFieldValues(values)
+
+  // now render the results
+  if (canRenderMethodOutputs(ABI, 'approve')) {
+    renderMethodOutputs(ABI, 'approve', results, (name, index, instance, result) => {
+      output.append(`<p>${name}: ${result}</p>`)
+    })
+  }
+})
 ```
 
 ## API
