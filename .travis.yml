@@ -1,0 +1,16 @@
+language: node_js
+
+node_js:
+  - "lts/*"
+  - "node"
+
+cache: yarn
+
+script:
+  - "yarn lint"
+  - "yarn test:coverage"
+  - "yarn codecov"
+
+notifications:
+  email:
+    - ram@hiddentao.com

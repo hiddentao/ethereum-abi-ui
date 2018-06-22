@@ -1,0 +1,62 @@
+{
+  "name": "ethereum-abi-ui",
+  "version": "1.0.0",
+  "description": "Auto-generate UI form field definitions and associated validators from an Ethereum contract ABI ",
+  "main": "index.js",
+  "repository": "https://github.com/hiddentao/ethereum-abi-ui.git",
+  "author": "Ramesh Nair <ram@hiddentao.com>",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "src/*.js",
+    "dist/*.js"
+  ],
+  "scripts": {
+    "build": "babel --ignore test.js,__fixtures__ --out-dir dist src",
+    "prepublishOnly": "yarn lint && yarn test && yarn build",
+    "lint": "eslint ./src",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "codecov": "codecov"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.3",
+    "babel-jest-assertions": "^0.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "codecov": "^3.0.2",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^21.2.1",
+    "react-native-extended-stylesheet": "^0.8.1"
+  },
+  "jest": {
+    "roots": [
+      "./src/"
+    ],
+    "testMatch": [
+      "**/?(*.)test.js"
+    ],
+    "collectCoverageFrom": [
+      "**/*.js"
+    ],
+    "coverageReporters": [
+      "html",
+      "text",
+      "text-summary"
+    ]
+  },
+  "dependencies": {
+    "bn.js": "^4.11.8",
+    "web3-utils": "^1.0.0-beta.34"
+  }
+}
