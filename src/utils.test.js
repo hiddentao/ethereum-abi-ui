@@ -37,7 +37,7 @@ describe('getAbiJson()', () => {
 })
 
 describe('getMethodDefinition()', () => {
-  let abi = [
+  const abi = [
     {
       type: 'variable',
       name: 'moby',
