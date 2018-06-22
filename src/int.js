@@ -1,4 +1,4 @@
-import BN from 'bn.js'
+import { BN } from 'web3-utils'
 import { NUMBER } from './fieldTypes'
 
 export default class Int {
@@ -8,21 +8,22 @@ export default class Int {
     if (!M.length) {
       M = '256'
     }
-    this.maxInt = new BN('2', 10).pow(new BN(M, 10))
+    this.maxInt = new BN(2, 10).pow(new BN(M, 10))
     this.minInt = this.maxInt.neg()
   }
   fieldType = () => NUMBER
   placeholderText = () => `123...`
   isValid = val => {
-    const v = parseInt(`${val}`, 10)
-
-    if (Number.isNaN(v)) {
+    if (Number.isNaN(parseInt(`${val}`, 10))) {
       return false
     }
 
-    const bv = new BN(v, '10')
-
-    return bv.gte(this.minInt) && bv.lte(this.maxInt)
+    try {
+      const bv = new BN(`${val}`, 10)
+      return bv.gte(this.minInt) && bv.lte(this.maxInt)
+    } catch (_) {
+      return false
+    }
   }
   sanitize = v => (v || '').trim()
 }
